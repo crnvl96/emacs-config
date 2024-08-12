@@ -1,0 +1,15 @@
+eln-cache/
+elpa/
+transient/
+autosave/
+elpaca/
+.cache/
+custom.el
+history
+places
+recentf
+custom*
+.lsp-session-*
+projectile-*
+projects
+forge-database.*
