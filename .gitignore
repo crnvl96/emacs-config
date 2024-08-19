@@ -7,6 +7,7 @@ elpaca/
 custom.el
 history
 places
+auto-save-list/
 recentf
 custom*
 .lsp-session-*
