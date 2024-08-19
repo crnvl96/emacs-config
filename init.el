@@ -1,5 +1,6 @@
-(setq read-process-output-max (* 4 1024 1024))  ; 4mb
-(setq gc-cons-threshold most-positive-fixnum)
+(setq read-process-output-max (* 4 1024 1024)
+      gc-cons-threshold most-positive-fixnum)
+
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq gc-cons-threshold (* 100 1024 1024))))
@@ -7,72 +8,34 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file 'noerror 'nomessage)
 
-(setq use-file-dialog nil)
-(setq use-dialog-box nil)
+(setq use-file-dialog nil
+      use-dialog-box nil
+      package-enable-at-startup t
+      package-quickstart nil
+      use-package-always-ensure t
+      package-install-upgrade-built-in t
+      mouse-yank-at-point t
+      visible-bell nil
+      ring-bell-function #'ignore
+      truncate-partial-width-windows nil
+      sentence-end-double-space nil
+      require-final-newline t
+      kill-do-not-save-duplicates t
+      comment-empty-lines t)
 
-(setq package-enable-at-startup t)
-(setq package-quickstart nil)
-(setq use-package-always-ensure t)
-
-;; Emacs comes with several built-in packages, such as Org-mode, that are
-;; essential for many users. However, these built-in packages are often not the
-;; latest versions available. Ensure that your built-in packages are always up
-;; to date with:
-(setq package-install-upgrade-built-in t)
+(setq-default indent-tabs-mode nil
+              tab-width 4
+              indent-tabs-mode nil
+              tab-width 4
+              tab-always-indent t
+              fill-column 80)
 
 (if (boundp 'use-short-answers)
     (setq use-short-answers t)
   (advice-add #'yes-or-no-p :override #'y-or-n-p))
 (defalias #'view-hello-file #'ignore)  ; Never show the hello file
 
-(require 'package)
-
-(when (version< emacs-version "28")
-  (add-to-list 'package-archives
-               '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-
-(customize-set-variable 'package-archive-priorities
-                        '(("gnu"    . 99)
-                          ("nongnu" . 80)
-                          ("stable" . 70)
-                          ("melpa"  . 0)))
-
-(when package-enable-at-startup
-  (package-initialize)
-  (unless package-archive-contents
-    (package-refresh-contents t)))
-
-;;; use-package
-;; Load use-package for package configuration
-
-;; Ensure the 'use-package' package is installed and loaded
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents t)
-  (package-install 'use-package)
-  (eval-when-compile
-    (require 'use-package)))
-
-(eval-when-compile
-  (require 'use-package))
-
-(setq mouse-yank-at-point t)
-
-(setq visible-bell nil)
-(setq ring-bell-function #'ignore)
-
-(setq-default word-wrap t)
-(setq-default truncate-lines t)
-
-(setq truncate-partial-width-windows nil)
-
-(setq-default indent-tabs-mode nil
-              tab-width 4)
-
-(menu-bar-mode -1)            ; no menu bar
+(menu-bar-mode -1)            ; no menu bark
 (tool-bar-mode -1)            ; no tools bar
 (scroll-bar-mode -1)          ; no scroll bars
 (tooltip-mode -1)             ; no tooltips
@@ -86,15 +49,9 @@
 (global-hl-line-mode 1)       ; Current line highlight
 (delete-selection-mode t)     ; Overwrite/delete selected text
 
-(setq-default tab-always-indent t)
-(setq-default fill-column 80)
-(setq sentence-end-double-space nil)
-(setq require-final-newline t)
-(setq kill-do-not-save-duplicates t)
-(setq comment-empty-lines t)
-
 (dolist (mode '(prog-mode-hook
-                conf-mode-hook))
+                conf-mode-hook
+                org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 1))))
 
 (add-hook 'dired-mode-hook 'auto-revert-mode)
@@ -102,6 +59,32 @@
 (set-face-attribute 'default nil :font "BerkeleyMono Nerd Font 13")
 (set-face-attribute 'variable-pitch nil :font "BerkeleyMono Nerd Font 13")
 (set-face-attribute 'fixed-pitch nil :font "BerkeleyMono Nerd Font 13")
+
+(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+(define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
+
+(require 'package)
+
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+
+(customize-set-variable 'package-archive-priorities
+                        '(("gnu"    . 99)
+                          ("stable" . 70)
+                          ("melpa"  . 0)))
+
+(when package-enable-at-startup
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents t)))
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents t)
+  (package-install 'use-package)
+  (eval-when-compile
+    (require 'use-package)))
 
 (use-package doom-themes
   :init
@@ -158,7 +141,7 @@
   :bind (("C-c f f" . consult-fd)
          ("C-c f b" . consult-buffer)
          ("C-c s g" . consult-ripgrep)
-         ("C-c s l" . consult-line)))
+         ("C-s" . consult-line)))
 
 (use-package orderless
   :custom
@@ -166,13 +149,25 @@
   (completion-avy-goto-char-timercategory-overrides '((file (styles basic partial-completion)))))
 
 (use-package ace-window
-  :custom
-  (aw-dispatch-always t)
-  :bind ("C-c w" . ace-window))
+  :bind ("M-o" . ace-window))
 
 (use-package avy
-  :bind (("C-c j" . avy-goto-char-2)
-         ("C-c l" . avy-goto-line)))
+  :bind (("M-i" . avy-goto-char-2)
+         ("M-l" . avy-goto-line)))
+
+(use-package embark
+  :bind (("C-." . embark-act)         ;; pick some comfortable binding
+         ("C-;" . embark-dwim)        ;; good alternative: M-.
+         ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command))
+
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package wgrep)
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
