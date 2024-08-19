@@ -86,12 +86,9 @@
   (eval-when-compile
     (require 'use-package)))
 
-(use-package doom-themes
+(use-package zenburn-theme
   :init
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (load-theme 'doom-moonlight t)
-  (doom-themes-org-config))
+  (load-theme 'zenburn t))
 
 (use-package vertico
   :bind (:map vertico-map
@@ -104,6 +101,16 @@
   (vertico-cycle t)
   :init
   (vertico-mode))
+
+(use-package crux
+  :bind (([remap move-beginning-of-line] . crux-move-beginning-of-line)
+         ("C-c o" . crux-open-with)
+         ([S-return] . crux-smart-open-line)
+         ("M-r" . crux-recentf-find-file)
+         ("C-<backspace>" . crux-kill-line-backwards)
+         ([remap kill-whole-line] . crux-kill-whole-line))
+  :config
+  (crux-with-region-or-line comment-or-uncomment-region))   
 
 (use-package marginalia
   :after vertico
