@@ -56,12 +56,13 @@
 
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 
-(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font 13")
-(set-face-attribute 'variable-pitch nil :font "BerkeleyMono Nerd Font 13")
-(set-face-attribute 'fixed-pitch nil :font "BerkeleyMono Nerd Font 13")
+(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font 11")
+(set-face-attribute 'variable-pitch nil :font "BerkeleyMono Nerd Font 11")
+(set-face-attribute 'fixed-pitch nil :font "BerkeleyMono Nerd Font 11")
 
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 (define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
+(define-key key-translation-map (kbd "C-k") (kbd "C-S-<backspace>"))
 
 (require 'package)
 
@@ -101,6 +102,13 @@
   (vertico-cycle t)
   :init
   (vertico-mode))
+
+(use-package golden-ratio-scroll-screen
+  :bind (("C-v" . golden-ratio-scroll-screen-up)
+         ("M-v" . golden-ratio-scroll-screen-down)))
+
+(use-package avy
+  :bind (("M-s" . avy-goto-char-2)))
 
 (use-package crux
   :bind (([remap move-beginning-of-line] . crux-move-beginning-of-line)
@@ -164,10 +172,6 @@
 (use-package ace-window
   :bind ("M-o" . ace-window))
 
-(use-package avy
-  :bind (("M-i" . avy-goto-char-2)
-         ("M-l" . avy-goto-line)))
-
 (use-package embark
   :bind (("C-." . embark-act)         ;; pick some comfortable binding
          ("C-;" . embark-dwim)        ;; good alternative: M-.
@@ -208,8 +212,14 @@
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
   (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
 
+; (use-package flycheck
+;   :init
+;   (global-flycheck-mode))
+; :config
+; (flycheck-add-mode 'javascript-eslint 'typescriptreact-mode))
+
 (defun crnvl/eglot-typescript-setup ()
-  "Configure flycheck for a better TypeScript (eslint) experience."
+  "Configure eglot for a better TypeScript (eslint) experience."
   (eglot-ensure))
 
 (use-package eglot
