@@ -148,7 +148,7 @@
   :init
   (global-diff-hl-mode)
   :custom
-  (diff-hl-show-staged-changes t))
+  (diff-hl-show-staged-changes nil))
 
 (use-package consult
   :bind (("C-c f f" . consult-fd)
