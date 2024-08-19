@@ -144,6 +144,12 @@
 (use-package magit
   :commands magit)
 
+(use-package diff-hl
+  :init
+  (global-diff-hl-mode)
+  :custom
+  (diff-hl-show-staged-changes t))
+
 (use-package consult
   :bind (("C-c f f" . consult-fd)
          ("C-c f b" . consult-buffer)
