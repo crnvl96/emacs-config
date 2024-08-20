@@ -1,0 +1,140 @@
+;;; post-init.el --- Post init -*- no-byle-compile: t; lexical-binding t; -*-
+
+;;; Commentary:
+
+;;; Code:
+
+(use-package gruvbox-theme
+  :init
+  (load-theme 'gruvbox-dark-hard t))
+
+(use-package devil
+  :init
+  (global-devil-mode))
+
+(use-package vertico
+  :bind (:map minibuffer-local-map
+              ("M-h" . backward-kill-word))
+  :custom
+  (vertico-cycle t)
+  :init
+  (vertico-mode))
+
+(use-package marginalia
+  :after vertico
+  :custom
+  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+  :init
+  (marginalia-mode))
+
+(use-package company
+  :bind (:map company-active-map
+              ("<return>". nil)
+              ("RET" . nil)
+              ("C-<return>" . company-complete-selection)
+              ("C-y" . company-complete-selection))
+  :custom
+  (company-minimum-prefix-length 4)
+  :init
+  (global-company-mode))
+
+(use-package which-key
+  :custom
+  (which-key-side-window-location 'bottom)
+  :init
+  (which-key-mode))
+
+(use-package projectile
+  :bind (("C-c p p" . projectile-switch-project))
+  :init
+  (projectile-mode))
+
+(use-package apheleia
+  :init
+  (apheleia-global-mode +1)
+  :hook
+  (go-mode . (lambda() (setq apheleia-inhibit t))))
+
+(use-package magit
+  :commands magit)
+
+(use-package transient
+  :after magit)
+
+(use-package consult
+  :bind (("C-c f f" . consult-fd)
+         ("C-c f b" . consult-buffer)
+         ("C-c s g" . consult-ripgrep)
+         ("C-s" . consult-line)))
+
+(use-package embark
+  :bind (("C-." . embark-act)))
+
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package golden-ratio-scroll-screen
+  :bind (("C-v" . golden-ratio-scroll-screen-up)
+         ("M-v" . golden-ratio-scroll-screen-down)))
+
+(use-package ace-window
+  :bind ("M-o" . ace-window))
+
+(use-package avy
+  :bind ("M-s". avy-goto-char-2))
+
+(use-package wgrep)
+
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
+
+(use-package tree-sitter
+  :init
+  (global-tree-sitter-mode)
+  :hook
+  (tree-sitter-after-on . tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :after tree-sitter)
+
+(use-package go-mode
+  :after tree-sitter)
+
+(use-package json-mode
+  :after tree-sitter)
+
+(use-package typescript-mode
+  :after tree-sitter
+  :init
+  (define-derived-mode typescriptreact-mode typescript-mode
+    "TypeScript TSX")
+  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
+  (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
+
+(use-package flycheck
+  :init
+  (global-flycheck-mode)
+  :custom
+  (flycheck-idle-change-delay 0)
+  (setq-local flycheck-check-syntax-automatically '(save)))
+
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((typescriptreact-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp
+  :custom
+  (lsp-idle-delay 0))
+
+(use-package lsp-ui :commands lsp-ui-mode)
+
+(provide 'post-init)
+
+;;; post-init.el ends here
