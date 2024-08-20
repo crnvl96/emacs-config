@@ -4,6 +4,16 @@
 
 ;;; Code:
 
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+(define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
+(define-key key-translation-map (kbd "C-k") (kbd "C-S-<backspace>"))
+(global-set-key (kbd "C-c b o") #'kill-other-buffers)
+
 (use-package gruvbox-theme
   :init
   (load-theme 'gruvbox-dark-hard t))
@@ -124,12 +134,18 @@
   (flycheck-idle-change-delay 0)
   (setq-local flycheck-check-syntax-automatically '(save)))
 
+(defun crnvl96-lsp-find-definition ()
+  "Open lsp definitions in a splitted window."
+  (interactive)
+  (lsp-find-definition :display-action 'window))
+
 (use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-c l")
   :hook ((typescriptreact-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
+  :bind (("C-c ." . crnvl96-lsp-find-definition))
   :commands lsp
+  :init
+  (setq lsp-keymap-prefix "C-c l")
   :custom
   (lsp-idle-delay 0))
 

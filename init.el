@@ -364,10 +364,6 @@
 (set-face-attribute 'variable-pitch nil :font "BerkeleyMono Nerd Font 12")
 (set-face-attribute 'fixed-pitch nil :font "BerkeleyMono Nerd Font 12")
 
-(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
-(define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
-(define-key key-translation-map (kbd "C-k") (kbd "C-S-<backspace>"))
-
 ;;; Load post-init.el
 (minimal-emacs-load-user-init "post-init.el")
 
