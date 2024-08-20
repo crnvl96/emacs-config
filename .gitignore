@@ -1,6 +1,7 @@
 eln-cache/
 elpa/
 transient/
+tramp
 autosave/
 elpaca/
 .cache/
