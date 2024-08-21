@@ -12,7 +12,15 @@
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 (define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
 (define-key key-translation-map (kbd "C-k") (kbd "C-S-<backspace>"))
-(global-set-key (kbd "C-c b o") #'kill-other-buffers)
+
+(unbind-key "C-d")
+(bind-keys :prefix-map personal-ops-map
+           :prefix "C-d"
+           :prefix-docstring "Personal key bindings")
+
+(global-set-key (kbd "C-d b o") #'kill-other-buffers)
+(global-set-key (kbd "C-d /") #'comment-or-uncomment-region)
+
 
 (use-package gruvbox-theme
   :init
@@ -21,6 +29,11 @@
 (use-package devil
   :init
   (global-devil-mode))
+
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package vertico
   :bind (:map minibuffer-local-map
@@ -55,7 +68,7 @@
   (which-key-mode))
 
 (use-package projectile
-  :bind (("C-c p p" . projectile-switch-project))
+  :bind ("C-d p p" . projectile-switch-project)
   :init
   (projectile-mode))
 
@@ -72,34 +85,33 @@
   :after magit)
 
 (use-package consult
-  :bind (("C-c f f" . consult-fd)
-         ("C-c f b" . consult-buffer)
-         ("C-c s g" . consult-ripgrep)
-         ("C-s" . consult-line)))
+  :bind (("C-d f f" . consult-fd)
+         ("C-d f b" . consult-buffer)
+         ("C-d s g" . consult-ripgrep)
+         ("C-d f l" . consult-line)))
 
 (use-package embark
   :bind (("C-." . embark-act)))
 
 (use-package embark-consult
+  :after embark
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+
+(use-package wgrep)
 
 (use-package golden-ratio-scroll-screen
   :bind (("C-v" . golden-ratio-scroll-screen-up)
          ("M-v" . golden-ratio-scroll-screen-down)))
 
 (use-package ace-window
-  :bind ("M-o" . ace-window))
+  :bind (("C-d w" . ace-window))
+  :custom
+  (aw-dispatch-always t))
 
 (use-package avy
-  :bind ("M-s". avy-goto-char-2))
-
-(use-package wgrep)
-
-(use-package orderless
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  :bind ("C-d j". avy-goto-char-2))
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
@@ -142,10 +154,12 @@
 (use-package lsp-mode
   :hook ((typescriptreact-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
-  :bind (("C-c ." . crnvl96-lsp-find-definition))
+  :bind (("C-d g d" . crnvl96-lsp-find-definition)
+         ("C-d g r" . lsp-find-references)
+         ("C-d g i" . lsp-find-implementation))
   :commands lsp
   :init
-  (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-keymap-prefix "C-d l")
   :custom
   (lsp-idle-delay 0))
 
