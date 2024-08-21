@@ -4,31 +4,34 @@
 
 ;;; Code:
 
-(defun kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 (define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
 (define-key key-translation-map (kbd "C-k") (kbd "C-S-<backspace>"))
-
-;; (unbind-key "C-d")
-;; (bind-keys :prefix-map personal-ops-map
-;;            :prefix "C-d"
-;;            :prefix-docstring "Personal key bindings")
-
-(global-set-key (kbd "C-c b o") #'kill-other-buffers)
 (global-set-key (kbd "C-c /") #'comment-or-uncomment-region)
 
-
-(use-package gruvbox-theme
+(use-package zenburn-theme
   :init
-  (load-theme 'gruvbox-dark-hard t))
+  (load-theme 'zenburn t))
 
-(use-package devil
+(use-package evil
   :init
-  (global-devil-mode))
+  (setq evil-want-integration t
+        evil-want-keybinding nil
+        evil-search-module 'evil-search
+        evil-ex-complete-emacs-commands nil
+        evil-vsplit-window-right t
+        evil-split-window-below t
+        evil-shift-round nil
+        evil-want-C-u-scroll t
+        evil-want-Y-yank-to-eol t
+        evil-undo-system 'undo-redo)
+  (evil-mode))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (add-to-list 'evil-collection-mode-list 'help)
+  (evil-collection-init))
 
 (use-package orderless
   :custom
@@ -84,6 +87,14 @@
 (use-package transient
   :after magit)
 
+(use-package diff-hl
+  :hook((magit-pre-refresh . diff-hl-magit-pre-refresh)
+        (magit-post-refresh . diff-hl-magit-post-refresh))
+  :custom
+  (diff-hl-show-staged-changes nil)
+  :init
+  (global-diff-hl-mode))
+
 (use-package consult
   :bind (("C-c f f" . consult-fd)
          ("C-c f b" . consult-buffer)
@@ -98,21 +109,7 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-
 (use-package wgrep)
-
-(use-package golden-ratio-scroll-screen
-  :bind (("C-v" . golden-ratio-scroll-screen-up)
-         ("M-v" . golden-ratio-scroll-screen-down)))
-
-(use-package ace-window
-  :bind (("M-o" . ace-window)))
-
-(use-package avy
-  :bind ("M-s". avy-goto-char-2))
-
-(use-package expand-region
-  :bind ("C-=" . er/expand-region))
 
 (use-package tree-sitter
   :init
@@ -142,12 +139,8 @@
   (global-flycheck-mode)
   :custom
   (flycheck-idle-change-delay 0)
-  (setq-local flycheck-check-syntax-automatically '(save)))
-
-(defun crnvl96-lsp-find-definition ()
-  "Open lsp definitions in a splitted window."
-  (interactive)
-  (lsp-find-definition :display-action 'window))
+  (flycheck-check-syntax-automatically '(save))
+  (flycheck-disabled-checkers '(emacs-lisp-checkdoc emacs-lisp)))
 
 (use-package lsp-mode
   :hook ((typescriptreact-mode . lsp)
@@ -156,10 +149,12 @@
   :init
   (setq lsp-keymap-prefix "C-c l")
   :custom
-  (lsp-idle-delay 0)
-  (lsp-headerline-breadcrumb-enable nil))
-
-(use-package lsp-ui :commands lsp-ui-mode)
+  (lsp-enable-symbol-highlighting nil)
+  (lsp-ui-doc-show-with-cursor nil)
+  (lsp-ui-doc-show-with-mouse nil)
+  (lsp-lens-enable nil)
+  (lsp-headerline-breadcrumb-enable nil)
+  (lsp-idle-delay 0))
 
 (provide 'post-init)
 

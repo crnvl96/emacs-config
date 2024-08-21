@@ -354,6 +354,7 @@
 
 
 ;; personal configuration
+(setq display-line-numbers-type 'relative)
 (dolist (mode '(prog-mode-hook
                 conf-mode-hook
                 org-mode-hook))
@@ -363,6 +364,9 @@
 (set-face-attribute 'default nil :font "BerkeleyMono Nerd Font 12")
 (set-face-attribute 'variable-pitch nil :font "BerkeleyMono Nerd Font 12")
 (set-face-attribute 'fixed-pitch nil :font "BerkeleyMono Nerd Font 12")
+
+;; Auto-refresh dired on file change
+(add-hook 'dired-mode-hook 'auto-revert-mode)
 
 ;;; Load post-init.el
 (minimal-emacs-load-user-init "post-init.el")
