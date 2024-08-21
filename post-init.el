@@ -13,13 +13,13 @@
 (define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
 (define-key key-translation-map (kbd "C-k") (kbd "C-S-<backspace>"))
 
-(unbind-key "C-d")
-(bind-keys :prefix-map personal-ops-map
-           :prefix "C-d"
-           :prefix-docstring "Personal key bindings")
+;; (unbind-key "C-d")
+;; (bind-keys :prefix-map personal-ops-map
+;;            :prefix "C-d"
+;;            :prefix-docstring "Personal key bindings")
 
-(global-set-key (kbd "C-d b o") #'kill-other-buffers)
-(global-set-key (kbd "C-d /") #'comment-or-uncomment-region)
+(global-set-key (kbd "C-c b o") #'kill-other-buffers)
+(global-set-key (kbd "C-c /") #'comment-or-uncomment-region)
 
 
 (use-package gruvbox-theme
@@ -68,7 +68,7 @@
   (which-key-mode))
 
 (use-package projectile
-  :bind ("C-d p p" . projectile-switch-project)
+  :bind ("C-c p" . projectile-command-map)
   :init
   (projectile-mode))
 
@@ -85,10 +85,10 @@
   :after magit)
 
 (use-package consult
-  :bind (("C-d f f" . consult-fd)
-         ("C-d f b" . consult-buffer)
-         ("C-d s g" . consult-ripgrep)
-         ("C-d f l" . consult-line)))
+  :bind (("C-c f f" . consult-fd)
+         ("C-c f b" . consult-buffer)
+         ("C-c f g" . consult-ripgrep)
+         ("C-c f l" . consult-line)))
 
 (use-package embark
   :bind (("C-." . embark-act)))
@@ -106,12 +106,10 @@
          ("M-v" . golden-ratio-scroll-screen-down)))
 
 (use-package ace-window
-  :bind (("C-d w" . ace-window))
-  :custom
-  (aw-dispatch-always t))
+  :bind (("M-o" . ace-window)))
 
 (use-package avy
-  :bind ("C-d j". avy-goto-char-2))
+  :bind ("M-s". avy-goto-char-2))
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
@@ -154,14 +152,12 @@
 (use-package lsp-mode
   :hook ((typescriptreact-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
-  :bind (("C-d g d" . crnvl96-lsp-find-definition)
-         ("C-d g r" . lsp-find-references)
-         ("C-d g i" . lsp-find-implementation))
   :commands lsp
   :init
-  (setq lsp-keymap-prefix "C-d l")
+  (setq lsp-keymap-prefix "C-c l")
   :custom
-  (lsp-idle-delay 0))
+  (lsp-idle-delay 0)
+  (lsp-headerline-breadcrumb-enable nil))
 
 (use-package lsp-ui :commands lsp-ui-mode)
 
