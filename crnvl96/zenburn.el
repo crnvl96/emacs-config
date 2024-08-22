@@ -4,4 +4,6 @@
   :init
   (load-theme 'zenburn t))
 
+(provide 'zenburn)
+
 ;;; zenburn.el ends here

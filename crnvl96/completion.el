@@ -1,4 +1,4 @@
-;;; completion.el --- Post init -*- no-byle-compile: t; lexical-binding t; -*-
+;;; completion.el --- Completion -*- no-byle-compile: t; lexical-binding t; -*-
 
 (use-package company
   :bind (:map company-active-map
@@ -16,5 +16,7 @@
   (which-key-side-window-location 'bottom)
   :init
   (which-key-mode))
+
+(provide 'completion)
 
 ;;; completion.el ends here

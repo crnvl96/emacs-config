@@ -58,4 +58,6 @@
   (add-to-list 'evil-collection-mode-list 'help)
   (evil-collection-init))
 
+(provide 'evil)
+
 ;;; evil.el ends here

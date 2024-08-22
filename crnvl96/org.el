@@ -12,6 +12,6 @@
 (setq org-log-done t)
 (setq org-log-into-drawer t)
 
-(provide 'prelude-org)
+(provide 'org)
 
 ;;; org.el ends here

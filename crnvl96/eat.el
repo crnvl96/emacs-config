@@ -5,5 +5,6 @@
          ("C-c t t" . eat-project)
          ("C-c t y" . eat-yank)))
 
+(provide 'eat)
 
 ;;; eat.el ends here

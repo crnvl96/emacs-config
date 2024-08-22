@@ -14,4 +14,6 @@
   :init
   (global-diff-hl-mode))
 
+(provide 'git)
+
 ;;; git.el ends here

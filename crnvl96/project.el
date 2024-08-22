@@ -11,14 +11,20 @@
          ("C-c f g" . consult-ripgrep)
          ("C-c f l" . consult-line)))
 
+
+(use-package consult-flycheck
+  :after consult)
+
 (use-package embark
   :bind (("C-." . embark-act)))
 
 (use-package embark-consult
-  :after embark
+  :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package wgrep)
+
+(provide 'project)
 
 ;;; project.el ends here
