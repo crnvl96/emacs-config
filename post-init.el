@@ -7,43 +7,9 @@
 
 (load "~/.config/emacs/crnvl96/zenburn.el")
 (load "~/.config/emacs/crnvl96/evil.el")
-
-(use-package orderless
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
-
-(use-package vertico
-  :bind (:map minibuffer-local-map
-              ("M-h" . backward-kill-word))
-  :custom
-  (vertico-cycle t)
-  :init
-  (vertico-mode))
-
-(use-package marginalia
-  :after vertico
-  :custom
-  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
-  :init
-  (marginalia-mode))
-
-(use-package company
-  :bind (:map company-active-map
-              ("<return>". nil)
-              ("RET" . nil)
-              ("C-<return>" . company-complete-selection)
-              ("C-y" . company-complete-selection))
-  :custom
-  (company-minimum-prefix-length 4)
-  :init
-  (global-company-mode))
-
-(use-package which-key
-  :custom
-  (which-key-side-window-location 'bottom)
-  :init
-  (which-key-mode))
+(load "~/.config/emacs/crnvl96/org.el")
+(load "~/.config/emacs/crnvl96/minibuffer.el")
+(load "~/.config/emacs/crnvl96/completion.el")
 
 (use-package projectile
   :bind ("C-c p" . projectile-command-map)
@@ -142,6 +108,13 @@
   (lsp-lens-enable nil)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-idle-delay 0))
+
+(use-package lsp-ui
+  :init
+  (setq lsp-ui-sideline-enable t
+        lsp-ui-doc-enable t
+        lsp-ui-peek-enable t
+        lsp-ui-peek-always-show t))
 
 (load "~/.config/emacs/crnvl96/eat.el")
 
