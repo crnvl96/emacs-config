@@ -1,37 +1,12 @@
 ;;; post-init.el --- Post init -*- no-byle-compile: t; lexical-binding t; -*-
 
-;;; Commentary:
-
-;;; Code:
-
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 (define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
 (define-key key-translation-map (kbd "C-k") (kbd "C-S-<backspace>"))
 (global-set-key (kbd "C-c /") #'comment-or-uncomment-region)
 
-(use-package zenburn-theme
-  :init
-  (load-theme 'zenburn t))
-
-(use-package evil
-  :init
-  (setq evil-want-integration t
-        evil-want-keybinding nil
-        evil-search-module 'evil-search
-        evil-ex-complete-emacs-commands nil
-        evil-vsplit-window-right t
-        evil-split-window-below t
-        evil-shift-round nil
-        evil-want-C-u-scroll t
-        evil-want-Y-yank-to-eol t
-        evil-undo-system 'undo-redo)
-  (evil-mode))
-
-(use-package evil-collection
-  :after evil
-  :config
-  (add-to-list 'evil-collection-mode-list 'help)
-  (evil-collection-init))
+(load "~/.config/emacs/crnvl96/zenburn.el")
+(load "~/.config/emacs/crnvl96/evil.el")
 
 (use-package orderless
   :custom
@@ -126,6 +101,18 @@
 (use-package json-mode
   :after tree-sitter)
 
+(use-package markdown-mode
+  :after tree-sitter
+  :mode "\\.md\\'"
+  :config
+  (setq markdown-command "pandoc")
+  (setq markdown-asymmetric-header t)
+  (setq markdown-header-scaling t)
+  (setq markdown-enable-math t))
+
+(use-package markdown-preview-mode
+  :commands markdown-preview)
+
 (use-package typescript-mode
   :after tree-sitter
   :init
@@ -155,6 +142,8 @@
   (lsp-lens-enable nil)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-idle-delay 0))
+
+(load "~/.config/emacs/crnvl96/eat.el")
 
 (provide 'post-init)
 
