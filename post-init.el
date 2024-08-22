@@ -10,11 +10,7 @@
 (load "~/.config/emacs/crnvl96/org.el")
 (load "~/.config/emacs/crnvl96/minibuffer.el")
 (load "~/.config/emacs/crnvl96/completion.el")
-
-(use-package projectile
-  :bind ("C-c p" . projectile-command-map)
-  :init
-  (projectile-mode))
+(load "~/.config/emacs/crnvl96/project.el")
 
 (use-package apheleia
   :init
@@ -35,22 +31,6 @@
   (diff-hl-show-staged-changes nil)
   :init
   (global-diff-hl-mode))
-
-(use-package consult
-  :bind (("C-c f f" . consult-fd)
-         ("C-c f b" . consult-buffer)
-         ("C-c f g" . consult-ripgrep)
-         ("C-c f l" . consult-line)))
-
-(use-package embark
-  :bind (("C-." . embark-act)))
-
-(use-package embark-consult
-  :after embark
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
-
-(use-package wgrep)
 
 (use-package tree-sitter
   :init
