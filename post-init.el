@@ -11,26 +11,13 @@
 (load "~/.config/emacs/crnvl96/minibuffer.el")
 (load "~/.config/emacs/crnvl96/completion.el")
 (load "~/.config/emacs/crnvl96/project.el")
+(load "~/.config/emacs/crnvl96/git.el")
 
 (use-package apheleia
   :init
   (apheleia-global-mode +1)
   :hook
   (go-mode . (lambda() (setq apheleia-inhibit t))))
-
-(use-package magit
-  :commands magit)
-
-(use-package transient
-  :after magit)
-
-(use-package diff-hl
-  :hook((magit-pre-refresh . diff-hl-magit-pre-refresh)
-        (magit-post-refresh . diff-hl-magit-post-refresh))
-  :custom
-  (diff-hl-show-staged-changes nil)
-  :init
-  (global-diff-hl-mode))
 
 (use-package tree-sitter
   :init
