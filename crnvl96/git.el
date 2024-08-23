@@ -1,4 +1,4 @@
-;;; git.el --- Git -*- no-byle-compile: t; lexical-binding t; -*-
+;;; git.el --- Git -*- no-byte-compile: t; lexical-binding t; -*-
 
 (use-package magit
   :commands magit)
@@ -13,7 +13,5 @@
   (diff-hl-show-staged-changes nil)
   :init
   (global-diff-hl-mode))
-
-(provide 'git)
 
 ;;; git.el ends here

@@ -1,4 +1,4 @@
-;;; minibuffer.el --- Minibuffer -*- no-byle-compile: t; lexical-binding t; -*-
+;;; minibuffer.el --- Minibuffer -*- no-byte-compile: t; lexical-binding t; -*-
 
 (use-package orderless
   :init
@@ -35,7 +35,5 @@
       '(read-only t cursor-intangible t face minibuffer-prompt))
 
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-(provide 'minibuffer)
 
 ;;; minibuffer.el ends here

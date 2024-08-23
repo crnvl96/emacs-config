@@ -1,4 +1,4 @@
-;;; lsp.el --- Post init -*- no-byle-compile: t; lexical-binding t; -*-
+;;; lsp.el --- Post init -*- no-byte-compile: t; lexical-binding t; -*-
 
 (use-package lsp-mode
   :hook ((typescriptreact-mode . lsp)
@@ -20,7 +20,5 @@
         lsp-ui-doc-enable t
         lsp-ui-peek-enable t
         lsp-ui-peek-always-show t))
-
-(provide 'lsp)
 
 ;;; lsp.el ends here

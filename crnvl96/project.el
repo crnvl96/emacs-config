@@ -1,4 +1,4 @@
-;;; project.el --- Project -*- no-byle-compile: t; lexical-binding t; -*-
+;;; project.el --- Project -*- no-byte-compile: t; lexical-binding t; -*-
 
 (use-package projectile
   :bind ("C-c p" . projectile-command-map)
@@ -11,9 +11,8 @@
          ("C-c f g" . consult-ripgrep)
          ("C-c f l" . consult-line)))
 
-
 (use-package consult-flycheck
-  :after consult)
+  :after (consult flycheck))
 
 (use-package embark
   :bind (("C-." . embark-act)))
@@ -24,7 +23,5 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package wgrep)
-
-(provide 'project)
 
 ;;; project.el ends here

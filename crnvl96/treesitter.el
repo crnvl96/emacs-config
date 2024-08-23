@@ -1,4 +1,4 @@
-;;; treesitter.el --- Treesitter -*- no-byle-compile: t; lexical-binding t; -*-
+;;; treesitter.el --- Treesitter -*- no-byte-compile: t; lexical-binding t; -*-
 
 (use-package tree-sitter
   :init
@@ -8,7 +8,5 @@
 
 (use-package tree-sitter-langs
   :after tree-sitter)
-
-(provide 'treesitter)
 
 ;;; treesitter.el ends here

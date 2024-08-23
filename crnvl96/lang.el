@@ -1,4 +1,4 @@
-;;; lang.el --- Lang -*- no-byle-compile: t; lexical-binding t; -*-
+;;; lang.el --- Lang -*- no-byte-compile: t; lexical-binding t; -*-
 
 (use-package go-mode
   :after tree-sitter)
@@ -15,6 +15,7 @@
   (setq markdown-enable-math t))
 
 (use-package markdown-preview-mode
+  :after tree-sitter
   :commands markdown-preview)
 
 (use-package typescript-mode
@@ -24,7 +25,5 @@
     "TypeScript TSX")
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
   (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
-
-(provide 'lang)
 
 ;;; lang.el ends here

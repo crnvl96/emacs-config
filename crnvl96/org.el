@@ -1,4 +1,4 @@
-;;; org.el --- Org -*- no-byle-compile: t; lexical-binding t; -*-
+;;; org.el --- Org -*- no-byte-compile: t; lexical-binding t; -*-
 
 (require 'org)
 (require 'org-habit)
@@ -11,7 +11,5 @@
 
 (setq org-log-done t)
 (setq org-log-into-drawer t)
-
-(provide 'org)
 
 ;;; org.el ends here
