@@ -5,11 +5,31 @@
   :init
   (projectile-mode))
 
+(use-package golden-ratio
+  :init
+  (golden-ratio-mode 1)
+  :custom
+  (golden-ratio-auto-scale t))
+
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-list-buffers)      
+  :custom
+  (persp-mode-prefix-key (kbd "C-c b")) 
+  :init
+  (persp-mode))
+
+(use-package persp-projectile
+  :bind ("C-c p p" . projectile-persp-switch-project))
+
 (use-package consult
   :bind (("C-c f f" . consult-fd)
          ("C-c f b" . consult-buffer)
          ("C-c f g" . consult-ripgrep)
-         ("C-c f l" . consult-line)))
+         ("C-c f l" . consult-line))
+  :config
+  (consult-customize consult--source-buffer :hidden t :default nil)
+  (add-to-list 'consult-buffer-sources persp-consult-source))
 
 (use-package consult-flycheck
   :after (consult flycheck))
