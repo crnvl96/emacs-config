@@ -1,5 +1,13 @@
 ;;; project.el --- Project -*- no-byte-compile: t; lexical-binding t; -*-
 
+(use-package super-save
+  :config
+  (setq super-save-auto-save-when-idle t)
+  (add-to-list 'super-save-triggers 'ace-window)
+  (add-to-list 'super-save-hook-triggers 'find-file-hook)
+  (setq auto-save-default nil)
+  (super-save-mode +1))
+
 (use-package projectile
   :bind ("C-c p" . projectile-command-map)
   :init

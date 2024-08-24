@@ -1,6 +1,7 @@
 ;;; init.el --- Init -*- no-byte-compile: t; lexical-binding: t; -*-
 
 ;; Author: James Cherti
+
 ;; URL: https://github.com/jamescherti/minimal-emacs.d
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: maint

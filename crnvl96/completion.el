@@ -11,10 +11,4 @@
   :init
   (global-company-mode))
 
-(use-package which-key
-  :custom
-  (which-key-side-window-location 'bottom)
-  :init
-  (which-key-mode))
-
 ;;; completion.el ends here
