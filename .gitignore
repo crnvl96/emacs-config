@@ -16,3 +16,5 @@ projectile-*
 projects
 forge-database.*
 session.*
+.dap-breakpoints
+.extension/
