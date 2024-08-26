@@ -1,15 +1,27 @@
 ;;; post-init.el --- Post init -*- no-byte-compile: t; lexical-binding t; -*-
 
+(menu-bar-mode -1)                      ; no menu bar
+(tool-bar-mode -1)                      ; no tools bar
+(scroll-bar-mode -1)                    ; no scroll bars
+(set-fringe-mode 10)                    ; frame edges set to 10px
+(column-number-mode 1)                  ; absolute numbering
+(recentf-mode 1)                        ; remember recent files
+(save-place-mode 1)                     ; remember cursor position
+(savehist-mode 1)                       ; enable history saving
+(delete-selection-mode t)               ; overwrite selected text when typing
+(global-hl-line-mode 1)                 ; enable current line highlight
+(global-visual-line-mode t)             ; visual line breaking
+(global-auto-revert-mode 1)             ; update externaly edited files
+(global-display-line-numbers-mode 1)    ; always show line numbers
+
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 (define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
 
-(use-package ace-window)
-(use-package expand-region)
-(use-package avy)
 (use-package wgrep)
 
-(use-package spacemacs-theme
-  :init (load-theme 'spacemacs-dark t))
+(use-package doom-themes
+  :init (load-theme 'doom-nord t))
+
 
 (use-package tree-sitter
   :defer t
@@ -22,12 +34,17 @@
   :init
   (global-centered-cursor-mode))
 
+(use-package nerd-icons)
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
+
 (use-package super-save
   :defer t
   :config
   (setq super-save-auto-save-when-idle t
         auto-save-default nil)
-  (add-to-list 'super-save-triggers 'ace-window)
   (add-to-list 'super-save-hook-triggers 'find-file-hook)
   (super-save-mode +1))
 
@@ -62,11 +79,6 @@
         evil-shift-width 2
         evil-undo-system 'undo-redo)
   (evil-mode)
-  :bind (:map evil-normal-state-map
-              ;; <SPC>
-              ([? ] . avy-goto-word-1)
-              ;; <RET>
-              ([?\r] . er/expand-region))
   :config
   (evil-declare-key 'normal org-mode-map
     "<" 'org-metaleft
@@ -90,25 +102,15 @@
   :bind ("C-c p" . projectile-command-map)
   :init (projectile-mode))
 
-(use-package perspective
-  :custom
-  (persp-mode-prefix-key (kbd "C-c e"))
-  :init
-  (persp-mode))
-
-(use-package persp-projectile
-  :bind ("C-c p p" . projectile-persp-switch-project))
-
 (use-package consult
   :bind (:prefix-map find
                      :prefix "C-c f"
-                     ("f" . consult-fd)
-                     ("b" . consult-buffer)
+                     ("f" . projectile-find-file)
+                     ("b" . projectile-switch-to-buffer)
+                     ("B" . projectile-ibuffer)
+                     ("t" . projectile-run-vterm-other-window)
                      ("g" . consult-ripgrep)
-                     ("l" . consult-line))
-  :config
-  (consult-customize consult--source-buffer :hidden t :default nil)
-  (add-to-list 'consult-buffer-sources persp-consult-source))
+                     ("l" . consult-line)))
 
 (use-package consult-flycheck)
 
@@ -140,12 +142,12 @@
   (require 'dap-node) 
   (dap-node-setup)
   (dap-register-debug-template
-   "Debug Server"
+   "Launch File"
    (list :type "node"
          :request "launch"
          :program "${workspaceFolder}/src/server/index.ts"
          :outFiles ["${workspaceFolder}/public/src/server/**/*.js"]
-         :name "Debug Server"))
+         :name "Launch File"))
   (dap-register-debug-template
    "Attach to NestJS"
    (list :type "node"
@@ -212,7 +214,6 @@
       :fringe-face 'flycheck-fringe-info))
   :custom
   (flycheck-idle-change-delay 0)
-  ;; (flycheck-check-syntax-automatically '(save))
   (flycheck-disabled-checkers '(emacs-lisp-checkdoc emacs-lisp)))
 
 (use-package lsp-mode
@@ -262,10 +263,11 @@
 
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-(use-package eat
-  :bind (("C-c t T" . eat)
-         ("C-c t t" . eat-project)
-         ("C-c t y" . eat-yank)))
+(use-package vterm
+  :commands vterm
+  :config
+  (setq vterm-max-scrollback 10000
+        term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
 (require 'org)
 (require 'org-habit)

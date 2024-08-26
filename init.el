@@ -362,9 +362,9 @@
   (add-hook mode (lambda () (display-line-numbers-mode 1))))
 
 
-(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font 12")
-(set-face-attribute 'variable-pitch nil :font "BerkeleyMono Nerd Font 12")
-(set-face-attribute 'fixed-pitch nil :font "BerkeleyMono Nerd Font 12")
+(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font 11")
+(set-face-attribute 'variable-pitch nil :font "BerkeleyMono Nerd Font 11")
+(set-face-attribute 'fixed-pitch nil :font "BerkeleyMono Nerd Font 11")
 
 ;; Auto-refresh dired on file change
 (add-hook 'dired-mode-hook 'auto-revert-mode)

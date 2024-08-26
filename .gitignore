@@ -18,3 +18,5 @@ forge-database.*
 session.*
 .dap-breakpoints
 .extension/
+eshell/
+saveplace
