@@ -18,6 +18,9 @@
 (define-key key-translation-map (kbd "C-<escape>") (kbd "ESC"))
 
 (use-package wgrep)
+;; (use-package ace-window)
+;; (use-package avy)
+;; (use-package devil)
 
 (use-package doom-themes
   :init (load-theme 'doom-nord t))
@@ -30,9 +33,9 @@
 
 (use-package tree-sitter-langs)
 
-(use-package centered-cursor-mode
-  :init
-  (global-centered-cursor-mode))
+;; (use-package centered-cursor-mode
+;;   :init
+;;   (global-centered-cursor-mode))
 
 (use-package nerd-icons)
 
